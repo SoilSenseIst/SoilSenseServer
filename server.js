@@ -115,6 +115,45 @@ app.post('/logout', async (req, res) => {
   }
 });
 
+app.post('/profile', async (req, res) => {
+  const { session_token, first_name, last_name, device_ID, device_key } = req.body;
+
+  if (!session_token || !first_name || !last_name || !device_ID || !device_key) {
+    return res.status(400).json({
+      success: false,
+      message: 'Missing required fields',
+    });
+  }
+
+  try {
+    // Autentica o token para obter user_id
+    const session = await client.sessions.authenticate({ session_token });
+    const user_id = session.user_id;
+
+    // Aqui você guardaria no banco (exemplo usando Prisma, Sequelize ou qualquer outro)
+    console.log("Salvar perfil do usuário no banco:", {
+      user_id,
+      first_name,
+      last_name,
+      device_ID,
+      device_key,
+    });
+
+    res.json({
+      success: true,
+      message: 'Perfil salvo com sucesso!',
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(401).json({
+      success: false,
+      message: err.error_message || 'Token inválido ou expirado',
+    });
+  }
+});
+
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
