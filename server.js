@@ -130,14 +130,6 @@ app.post('/profile', async (req, res) => {
     const session = await client.sessions.authenticate({ session_token });
     const user_id = session.user_id;
 
-    // Aqui você guardaria no banco (exemplo usando Prisma, Sequelize ou qualquer outro)
-    console.log("Salvar perfil do usuário no banco:", {
-      user_id,
-      first_name,
-      last_name,
-      device_ID,
-      device_key,
-    });
 
     res.json({
       success: true,
