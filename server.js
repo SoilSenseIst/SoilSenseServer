@@ -2,15 +2,22 @@ import express from 'express';
 import stytch from 'stytch';
 import dotenv from 'dotenv';
 import cors from 'cors';
+<<<<<<< HEAD
 import axios from "axios";
 
+=======
+>>>>>>> 6ab5ae8151af897012f117d86d70b4b56dd03aed
 
 dotenv.config();
 
 const app = express();
 
 app.use(cors({
+<<<<<<< HEAD
   origin: 'https://soilsenseist.netlify.app',
+=======
+  origin: 'https://soilsenseist.netlify.app', 
+>>>>>>> 6ab5ae8151af897012f117d86d70b4b56dd03aed
   credentials: true,
 }));
 
@@ -58,7 +65,10 @@ app.post('/login', async (req, res) => {
       password,
       session_duration_minutes: 60,
     });
+<<<<<<< HEAD
  
+=======
+>>>>>>> 6ab5ae8151af897012f117d86d70b4b56dd03aed
 
     res.json({
       success: true,
@@ -66,8 +76,11 @@ app.post('/login', async (req, res) => {
       token: resp.session_token,
     });
   } catch (err) {
+<<<<<<< HEAD
     console.error("🔴 Login error:", err);
 
+=======
+>>>>>>> 6ab5ae8151af897012f117d86d70b4b56dd03aed
     console.error(err);
     res.json({
       success: false,
@@ -119,9 +132,15 @@ app.post('/logout', async (req, res) => {
 });
 
 app.post('/profile', async (req, res) => {
+<<<<<<< HEAD
   const { email, first_name, last_name, device_ID, device_key } = req.body;
 
   if (!email || !first_name || !last_name || !device_ID || !device_key) {
+=======
+  const { session_token, first_name, last_name, device_ID, device_key } = req.body;
+
+  if (!session_token || !first_name || !last_name || !device_ID || !device_key) {
+>>>>>>> 6ab5ae8151af897012f117d86d70b4b56dd03aed
     return res.status(400).json({
       success: false,
       message: 'Missing required fields',
@@ -129,6 +148,7 @@ app.post('/profile', async (req, res) => {
   }
 
   try {
+<<<<<<< HEAD
     const response = await axios.post("https://soilsense-api.onrender.com/api/profile", {
       email,
       first_name,
@@ -136,10 +156,17 @@ app.post('/profile', async (req, res) => {
       device_ID,
       device_key
     });
+=======
+    // Autentica o token para obter user_id
+    const session = await client.sessions.authenticate({ session_token });
+    const user_id = session.user_id;
+
+>>>>>>> 6ab5ae8151af897012f117d86d70b4b56dd03aed
 
     res.json({
       success: true,
       message: 'Perfil salvo com sucesso!',
+<<<<<<< HEAD
       db_response: response.data,
     });
 
@@ -175,6 +202,15 @@ app.get('/api/user-profile', async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Erro ao buscar perfil no server2',
+=======
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(401).json({
+      success: false,
+      message: err.error_message || 'Token inválido ou expirado',
+>>>>>>> 6ab5ae8151af897012f117d86d70b4b56dd03aed
     });
   }
 });
